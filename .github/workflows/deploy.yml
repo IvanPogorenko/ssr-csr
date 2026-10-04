@@ -2,7 +2,7 @@ name: Deploy Angular to GitHub Pages
 
 on:
   push:
-    branches: [ main ] # или master
+    branches: [ main ]
 
 permissions:
   contents: read
@@ -10,7 +10,7 @@ permissions:
   id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,6 +32,13 @@ jobs:
         with:
           path: ./dist/ssr-csr/browser
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
