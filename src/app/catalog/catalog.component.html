@@ -1,0 +1,81 @@
+<section class="products">
+  <h1>Каталог товаров</h1>
+
+  <div class="hydration-status">
+    @if (!hydrated) {
+      Ожидание гидратации...
+    } @else {
+      Angular hydrated — приложение интерактивно
+    }
+  </div>
+
+  <div class="filters">
+    <input
+      type="search"
+      placeholder="Поиск товаров..."
+      aria-label="Поиск товаров"
+      [value]="searchQuery()"
+      (input)="onSearch($any($event.target).value)"
+    />
+
+    <input
+      type="number"
+      min="0"
+      placeholder="Максимальная цена"
+      aria-label="Максимальная цена"
+      [value]="maxPrice() ?? ''"
+      (input)="onMaxPriceChange($any($event.target).value)"
+    />
+
+    <select
+      aria-label="Сортировка товаров"
+      [value]="sortOption()"
+      (change)="onSortChange($any($event.target).value)"
+    >
+      <option value="default">По умолчанию</option>
+      <option value="price-asc">Сначала дешёвые</option>
+      <option value="price-desc">Сначала дорогие</option>
+      <option value="title">По названию</option>
+    </select>
+
+    <button type="button" (click)="resetFilters()">
+      Сбросить
+    </button>
+  </div>
+
+  @if (loading()) {
+    <p class="status">Загрузка товаров...</p>
+  }
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (!loading() && !error()) {
+    <p class="results-count" aria-live="polite">
+      Найдено товаров: {{ filteredProducts().length }}
+    </p>
+
+    @if (filteredProducts().length > 0) {
+      <div class="products-grid">
+        @for (product of filteredProducts(); track product.id) {
+          <article class="product-card">
+            <img
+              [src]="product.thumbnail"
+              [alt]="product.title"
+              loading="lazy"
+            />
+
+            <div class="product-info">
+              <h2>{{ product.title }}</h2>
+              <p>{{ product.description }}</p>
+              <strong>{{ product.price }} $</strong>
+            </div>
+          </article>
+        }
+      </div>
+    } @else {
+      <p class="status">Товары не найдены</p>
+    }
+  }
+</section>

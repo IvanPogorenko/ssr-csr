@@ -1,0 +1,43 @@
+.filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.filters input,
+.filters select,
+.filters button {
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.filters button {
+  background: #222;
+  color: white;
+  cursor: pointer;
+}
+
+.filters button:hover {
+  background: #444;
+}
+
+.results-count {
+  margin-bottom: 16px;
+  color: #666;
+}
+
+@media (max-width: 700px) {
+  .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 450px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}
